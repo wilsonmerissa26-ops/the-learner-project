@@ -2100,10 +2100,50 @@ document.querySelectorAll(".application-form").forEach((form) => {
     render("next");
   }
 
+  /* Read-aloud voice: pick the clearest English voice this device offers.
+     Voices differ by device, so this ranks what is available instead of naming one voice. */
+  var NOVELTY = /albert|bad news|bahh|bells|boing|bubbles|cellos|good news|jester|organ|superstar|trinoids|whisper|wobble|zarvox|fred|junior|ralph|kathy|grandma|grandpa|eddy|flo|reed|rocko|sandy|shelley/i;
+  var PREFERRED = /samantha|ava|allison|susan|zoe|nicky|aria|jenny|emma|michelle|google us english/i;
+  var chosenVoice = null;
+
+  function scoreVoice(v) {
+    var lang = (v.lang || "").replace("_", "-").toLowerCase();
+    if (lang.indexOf("en") !== 0 || NOVELTY.test(v.name)) return -1;
+    var score = 1;
+    if (lang === "en-us") score += 50;
+    if (/natural|neural|premium|enhanced/i.test(v.name)) score += 40;
+    if (PREFERRED.test(v.name)) score += 30;
+    if (v["default"]) score += 5;
+    return score;
+  }
+
+  function pickVoice() {
+    if (!canSpeak) return null;
+    var best = null, bestScore = 0;
+    window.speechSynthesis.getVoices().forEach(function (v) {
+      var sc = scoreVoice(v);
+      if (sc > bestScore) { best = v; bestScore = sc; }
+    });
+    chosenVoice = best;
+    return best;
+  }
+
+  if (canSpeak) {
+    pickVoice();
+    if (typeof window.speechSynthesis.addEventListener === "function") {
+      window.speechSynthesis.addEventListener("voiceschanged", pickVoice);
+    }
+  }
+
   function speak() {
     if (!canSpeak) return;
     window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(new SpeechSynthesisUtterance("Which word unlocks the next platform? " + ITEMS[s.i].clue));
+    var line = new SpeechSynthesisUtterance("Which word unlocks the next platform? " + ITEMS[s.i].clue);
+    var voice = chosenVoice || pickVoice();
+    if (voice) { line.voice = voice; line.lang = voice.lang; } else { line.lang = "en-US"; }
+    line.rate = 0.9;
+    line.pitch = 1;
+    window.speechSynthesis.speak(line);
   }
 
   function render(reason) {
