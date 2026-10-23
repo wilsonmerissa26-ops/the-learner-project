@@ -1442,6 +1442,37 @@ html{scroll-padding-top:100px}body{background:#f7f3e9;color:var(--ink);font-fami
 
 .sample-section ul.update-points { margin: 4px 0 12px; padding-left: 20px; color: var(--ink); }
 .sample-section ul.update-points li { margin: 4px 0; }
+
+/* ---- Free checklist pop-up (22 October) ---- */
+.lead-pop { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 20px; }
+.lead-pop[hidden], .lead-bar[hidden], .lead-done[hidden], #lead-form[hidden] { display: none !important; }
+.lead-backdrop { position: absolute; inset: 0; background: rgba(17, 17, 15, 0.55); }
+.lead-dialog { position: relative; width: min(460px, 100%); max-height: calc(100vh - 40px); overflow-y: auto; background: var(--paper); color: var(--ink); border-top: 5px solid var(--champagne); box-shadow: 0 24px 80px rgba(17, 17, 15, 0.3); padding: 28px 26px 22px; }
+.lead-x { position: absolute; top: 8px; right: 8px; width: 44px; height: 44px; border: 0; background: transparent; color: var(--ink); font-size: 26px; line-height: 1; cursor: pointer; }
+.lead-kicker { margin: 0 0 6px; color: var(--gold-deep); font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+.lead-dialog h2 { margin: 0 0 8px; color: var(--teal); font-family: Georgia, "Times New Roman", serif; font-size: 28px; line-height: 1.12; font-weight: 700; }
+.lead-dialog p { margin: 0 0 14px; line-height: 1.5; }
+#lead-form { display: grid; gap: 12px; }
+#lead-form label { display: grid; gap: 5px; font-weight: 700; font-size: 14px; }
+#lead-form input[type="text"], #lead-form input[type="email"] { font: inherit; font-size: 16px; padding: 11px 12px; border: 1px solid var(--line); background: #fff; color: var(--ink); min-height: 46px; }
+#lead-form .lead-check { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; font-weight: 400; }
+#lead-form .lead-check input { width: 20px; height: 20px; margin: 2px 0 0; }
+#lead-form .button { width: 100%; cursor: pointer; font-size: 16px; }
+.lead-status { min-height: 1.2em; margin: 0 !important; color: #8a1c12; font-size: 14px; }
+.lead-small { font-size: 13px; color: var(--smoke); margin: 0 !important; }
+.lead-small a { color: var(--teal); }
+.lead-done .button { width: 100%; margin-bottom: 10px; text-decoration: none; }
+.lead-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 900; display: flex; align-items: center; gap: 10px; padding: 10px max(12px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); background: var(--teal); color: var(--paper); box-shadow: 0 -8px 30px rgba(17, 17, 15, 0.2); }
+.lead-bar span { flex: 1; min-width: 0; font-weight: 700; font-size: 14px; line-height: 1.3; }
+.lead-bar button { min-height: 44px; border: 0; cursor: pointer; font: inherit; font-weight: 800; }
+#lead-bar-open { background: var(--champagne); color: var(--ink); padding: 0 16px; }
+.lead-bar-x { width: 44px; background: transparent; color: var(--paper); font-size: 24px !important; }
+@media (max-width: 640px) {
+  .lead-pop { place-items: end stretch; padding: 0; }
+  .lead-dialog { width: 100%; max-height: 92vh; padding: 24px 18px calc(18px + env(safe-area-inset-bottom, 0px)); }
+  .lead-dialog h2 { font-size: 24px; }
+}
+body.lead-open { overflow: hidden; }
 </style>
   </head>
 <body>
@@ -1918,6 +1949,7 @@ html{scroll-padding-top:100px}body{background:#f7f3e9;color:var(--ink);font-fami
           follow up. Web3Forms deletes its copy within 7 days. Child information is
           used only for application review, planning next steps, and program communication. Your information is not sold.
           To count visits, this site uses Cloudflare Web Analytics, which doesn't use cookies or collect personal information.
+          If you request the free checklist, your first name, email, your child's grade if you share it, and which link or site brought you here go through Web3Forms to my email. I'll only send occasional emails if you check the box, and you can ask me to stop anytime.
           To have your details deleted, email me. A full consent and privacy agreement is completed before any child starts.
         </p>
         <p>Questions? Email <a href="mailto:thelearnerproject2026@gmail.com">thelearnerproject2026@gmail.com</a>.</p>
@@ -2253,6 +2285,194 @@ document.querySelectorAll(".application-form").forEach((form) => {
 
   s = fresh("fox");
   render("start");
+})();
+    </script>
+    <div class="lead-pop" id="lead-pop" hidden>
+      <div class="lead-backdrop" data-lead-close></div>
+      <div class="lead-dialog" role="dialog" aria-modal="true" aria-labelledby="lead-title" aria-describedby="lead-desc">
+        <button type="button" class="lead-x" data-lead-close aria-label="Close">&times;</button>
+        <form id="lead-form" novalidate>
+          <div>
+            <p class="lead-kicker">Free for parents</p>
+            <h2 id="lead-title">Free: Is it a learning gap?</h2>
+            <p id="lead-desc">A one-page checklist to spot where your child's learning breaks down, plus 4 questions to ask their teacher.</p>
+          </div>
+          <label for="lead-first">First name<input id="lead-first" name="firstName" type="text" autocomplete="given-name" required /></label>
+          <label for="lead-email">Email<input id="lead-email" name="email" type="email" autocomplete="email" required /></label>
+          <label for="lead-grade">Child's grade (optional)<input id="lead-grade" name="grade" type="text" /></label>
+          <label class="lead-check" for="lead-ok"><input id="lead-ok" name="emailsOk" type="checkbox" /><span>I'd like occasional emails from The Learner Project. I can ask to stop anytime.</span></label>
+          <input class="hp" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <button type="submit" class="button primary">Send me the checklist</button>
+          <p class="lead-status" id="lead-status" role="status" aria-live="polite"></p>
+          <p class="lead-small">Your details go to Ms. Merissa by email. <a href="#privacy" data-lead-close>Read the privacy note.</a></p>
+        </form>
+        <div class="lead-done" id="lead-done" hidden tabindex="-1">
+          <p class="lead-kicker">Thank you</p>
+          <h2>Here's your checklist.</h2>
+          <p id="lead-done-text">I'll also email you now and then with tips and openings.</p>
+          <a class="button primary" id="lead-download" href="learning-gap-checklist.pdf" target="_blank" rel="noopener">Download the checklist (PDF)</a>
+          <button type="button" class="button quiet" data-lead-close>Close</button>
+        </div>
+      </div>
+    </div>
+    <div class="lead-bar" id="lead-bar" hidden>
+      <span>Free checklist: Is it a learning gap?</span>
+      <button type="button" id="lead-bar-open">Get it</button>
+      <button type="button" class="lead-bar-x" id="lead-bar-x" aria-label="Dismiss the free checklist offer">&times;</button>
+    </div>
+    <script>
+/* Free checklist pop-up. Shows once after a parent reads about half the page or spends 30 seconds,
+   never while they are filling out an application, and stays closed for 14 days after they close it. */
+(function () {
+  var KEY = "tlp-lead";
+  var pop = document.getElementById("lead-pop"), bar = document.getElementById("lead-bar");
+  var form = document.getElementById("lead-form"), done = document.getElementById("lead-done");
+  var status = document.getElementById("lead-status");
+  if (!pop || !form) return;
+  var lastFocus = null, triggered = false, suppressed = false, started = Date.now();
+
+  function readState() { try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { return null; } }
+  function writeState(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) {} }
+  function blocked() {
+    var s = readState();
+    if (!s) return false;
+    if (s.state === "done") return true;
+    return s.state === "dismissed" && Date.now() < s.until;
+  }
+  function isPhone() { return window.matchMedia && window.matchMedia("(max-width: 640px)").matches; }
+  if (location.hash === "#apply" || location.hash === "#waitlist") suppressed = true;
+  document.addEventListener("focusin", function (e) {
+    if (e.target.closest && e.target.closest(".application-form")) suppressed = true;
+  });
+  /* A parent heading to the application or waitlist shouldn't be interrupted on the way. */
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest('a[href="#apply"], a[href="#waitlist"]');
+    if (a) suppressed = true;
+  }, true);
+  window.addEventListener("hashchange", function () {
+    if (location.hash === "#apply" || location.hash === "#waitlist") suppressed = true;
+  });
+
+  function focusables() {
+    return Array.prototype.filter.call(pop.querySelectorAll("a[href], button, input:not(.hp), [tabindex]:not([tabindex='-1'])"), function (el) {
+      return !el.disabled && el.offsetParent !== null;
+    });
+  }
+  function open() {
+    if (!pop.hidden) return;
+    lastFocus = document.activeElement;
+    bar.hidden = true;
+    pop.hidden = false;
+    document.body.classList.add("lead-open");
+    var first = form.hidden ? done : document.getElementById("lead-first");
+    if (first) first.focus();
+  }
+  function close(remember) {
+    pop.hidden = true;
+    document.body.classList.remove("lead-open");
+    if (remember && (readState() || {}).state !== "done") writeState({ state: "dismissed", until: Date.now() + 14 * 24 * 60 * 60 * 1000 });
+    if (lastFocus && lastFocus.focus && document.contains(lastFocus)) lastFocus.focus({ preventScroll: true });
+  }
+  function trigger() {
+    if (triggered || suppressed || blocked()) return;
+    triggered = true;
+    if (isPhone()) { bar.hidden = false; } else { open(); }
+  }
+
+  window.addEventListener("scroll", function () {
+    var h = document.documentElement.scrollHeight;
+    if (h > 0 && (window.scrollY + window.innerHeight) / h >= 0.5) trigger();
+  }, { passive: true });
+  setTimeout(trigger, 30000);
+  document.addEventListener("mouseout", function (e) {
+    if (!e.relatedTarget && e.clientY <= 0 && Date.now() - started > 8000) trigger();
+  });
+
+  pop.addEventListener("click", function (e) {
+    var c = e.target.closest("[data-lead-close]");
+    if (c) close(true);
+  });
+  document.addEventListener("keydown", function (e) {
+    if (pop.hidden) return;
+    if (e.key === "Escape") { e.preventDefault(); close(true); return; }
+    if (e.key === "Tab") {
+      var f = focusables(); if (!f.length) return;
+      var a = f[0], z = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
+      else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+    }
+  });
+  document.getElementById("lead-bar-open").addEventListener("click", function () { triggered = true; open(); });
+  document.getElementById("lead-bar-x").addEventListener("click", function () {
+    bar.hidden = true;
+    writeState({ state: "dismissed", until: Date.now() + 14 * 24 * 60 * 60 * 1000 });
+  });
+
+  function source() {
+    var q = new URLSearchParams(location.search);
+    return q.get("from") || q.get("utm_source") || "direct";
+  }
+  function referrer() {
+    try { return document.referrer ? new URL(document.referrer).hostname : "none"; } catch (e) { return "none"; }
+  }
+  function showDone(sent, emailsOk) {
+    form.hidden = true;
+    done.hidden = false;
+    document.getElementById("lead-done-text").textContent = sent
+      ? (emailsOk ? "I'll also email you now and then with tips and openings." : "Thanks for reading. If you have questions, email thelearnerproject2026@gmail.com.")
+      : "Your request didn't reach me, but the checklist is yours. If you'd like to talk, email thelearnerproject2026@gmail.com.";
+    done.focus();
+  }
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    status.textContent = "";
+    var first = document.getElementById("lead-first"), email = document.getElementById("lead-email");
+    var problems = [];
+    [first, email].forEach(function (el) { el.removeAttribute("aria-invalid"); });
+    if (!first.value.trim()) problems.push(first);
+    if (!email.value.trim() || !email.checkValidity()) problems.push(email);
+    if (problems.length) {
+      problems.forEach(function (el) { el.setAttribute("aria-invalid", "true"); });
+      status.textContent = "Please add your first name and a valid email.";
+      problems[0].focus();
+      return;
+    }
+    if (form.querySelector("[name=botcheck]").checked) return;
+    var grade = document.getElementById("lead-grade").value.trim();
+    var emailsOk = document.getElementById("lead-ok").checked;
+    var key = (typeof CONFIG !== "undefined" && CONFIG.WEB3FORMS_ACCESS_KEY) ? CONFIG.WEB3FORMS_ACCESS_KEY : "";
+    var button = form.querySelector("button[type=submit]");
+    var payload = {
+      access_key: key,
+      subject: "Checklist request: " + first.value.trim() + (grade ? " (" + grade + ")" : ""),
+      from_name: "The Learner Project website",
+      "Parent first name": first.value.trim(),
+      email: email.value.trim(),
+      "Child's grade": grade || "Not shared",
+      "OK to send occasional emails": emailsOk ? "Yes" : "No",
+      "Came from": source(),
+      "Referring site": referrer()
+    };
+    var sent = false;
+    if (key) {
+      button.disabled = true; button.textContent = "Sending...";
+      try {
+        var r = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(payload)
+        });
+        var result = await r.json().catch(function () { return {}; });
+        sent = r.ok && result.success === true;
+      } catch (err) { sent = false; }
+      button.disabled = false; button.textContent = "Send me the checklist";
+    }
+    writeState({ state: "done" });
+    showDone(sent, emailsOk);
+  });
+
+  window.__tlpLead = { open: open, trigger: trigger, state: readState };
 })();
     </script>
     <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c51de195bdd9469cb40c0053b9607c8e"}'></script><!-- End Cloudflare Web Analytics -->
