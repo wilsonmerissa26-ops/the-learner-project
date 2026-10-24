@@ -109,7 +109,7 @@ function tlpSend(fields) {
     form.hidden = true;
     done.hidden = false;
     document.getElementById("lead-done-text").textContent = sent
-      ? (emailsOk ? "I'll also email you now and then with tips and openings." : "Thanks for reading. If you have questions, email " + CONFIG.CONTACT_EMAIL + ".")
+      ? (emailsOk ? "I'll also email you now and then with tips and when new spots open." : "Thanks for reading. If you have questions, email " + CONFIG.CONTACT_EMAIL + ".")
       : "Your request didn't reach me, but the checklist is yours. If you'd like to talk, email " + CONFIG.CONTACT_EMAIL + ".";
     done.focus();
   }
