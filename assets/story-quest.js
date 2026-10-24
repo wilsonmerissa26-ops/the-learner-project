@@ -14,6 +14,7 @@
     { answer: "Solution", question: "Which story word means how the main problem is worked out?", options: ["Solution", "Setting", "Character", "Problem"] }
   ];
   var canSpeak = "speechSynthesis" in window && typeof window.SpeechSynthesisUtterance === "function";
+  var DEF = { Character: "a person or animal in the story", Setting: "where and when the story takes place", Problem: "the challenge a character faces", Solution: "how the main problem is worked out" };
   var s = null;
 
   function fresh(pet) {
@@ -47,7 +48,7 @@
       s.broken.push(word);
       s.streak = 0;
       s.hearts -= 1;
-      s.miss = "That block broke. Read the question again and choose another word.";
+      s.miss = "Not quite. " + word + " means " + DEF[word] + ". This question asks for the word that means " + DEF[item.answer] + ". Try another word.";
       if (s.hearts <= 0) {
         s.hearts = 3;
         s.miss += " Hearts refilled.";
@@ -195,7 +196,7 @@
       var fb = el("div", "mq-feedback" + (s.cleared ? " good" : s.miss ? " miss" : ""));
       fb.setAttribute("role", "status");
       if (s.cleared) {
-        fb.appendChild(el("span", "", "⭐ Checkpoint cleared! " + item.answer + " unlocks the platform. +10 XP, +3 coins."));
+        fb.appendChild(el("span", "", "⭐ Checkpoint cleared! " + item.answer + " means " + DEF[item.answer] + ", which is what the question asked. +10 XP, +3 coins."));
         focusTarget = button("mq-btn mq-next", s.i === ITEMS.length - 1 ? "Finish the quest" : "Next checkpoint", next);
         fb.appendChild(focusTarget);
       } else if (s.miss) {
