@@ -5,7 +5,7 @@
   if (!quiz) return;
 
     var STRUGGLES = [
-      { key: 'freeze', label: 'They can do the calculations but get stuck when it becomes a word problem.', recap: 'can do the calculations but gets stuck when it becomes a word problem',
+      { key: 'freeze', label: 'They can do the calculations but get stuck on word problems.', recap: 'can do the calculations but gets stuck on word problems',
         look: 'I’d check whether the trouble is reading the problem, finding what it’s asking, or choosing the operation, since the math itself is already there.' },
       { key: 'grades', label: 'They get good grades but can’t explain how they got the answer.', recap: 'gets good grades but can’t explain how they got the answer',
         look: 'I’d ask them to explain their thinking and use the skill in a new way. That shows whether they understand it or memorized it.' },
