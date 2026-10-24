@@ -38,7 +38,23 @@ function tlpSend(fields) {
     if (s.state === "done") return true;
     return s.state === "dismissed" && Date.now() < s.until;
   }
-  function busy() { return document.body.getAttribute("data-quiz-busy") === "true"; }
+  var lastGame = 0;
+  ["story-quest", "mini-quest"].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    ["click", "keydown", "touchstart"].forEach(function (ev) {
+      el.addEventListener(ev, function () { lastGame = Date.now(); }, true);
+    });
+  });
+  function gameInView() {
+    return ["story-quest", "mini-quest"].some(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return false;
+      var r = el.getBoundingClientRect();
+      return r.height > 0 && r.top < window.innerHeight && r.bottom > 0;
+    });
+  }
+  function busy() { return document.body.getAttribute("data-quiz-busy") === "true" || Date.now() - lastGame < 20000 || gameInView(); }
   function isPhone() { return window.matchMedia && window.matchMedia("(max-width: 640px)").matches; }
 
   function focusables() {
@@ -72,7 +88,10 @@ function tlpSend(fields) {
     var h = document.documentElement.scrollHeight;
     if (h > 0 && (window.scrollY + window.innerHeight) / h >= 0.5) trigger();
   }, { passive: true });
-  setTimeout(trigger, 30000);
+  setTimeout(function retry() {
+    trigger();
+    if (!triggered && !blocked()) setTimeout(retry, 5000);
+  }, 30000);
   document.addEventListener("mouseout", function (e) {
     if (!e.relatedTarget && e.clientY <= 0 && Date.now() - started > 8000) trigger();
   });
