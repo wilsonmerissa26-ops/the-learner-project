@@ -48,55 +48,68 @@
       return (v || '').trim().replace(/^(my child|they)\s+loves?\s+/i, '').replace(/[.!?]+$/, '');
     }
 
+    /* Each example: [I Show, We Try, You Try]. Every step asks a direct question.
+       I Show teaches the thinking and reaches the answer. You Try is a fresh question.
+       freeze: math word problems (upper elementary). grades: science, fair tests (middle school).
+       reading: phonics (early reader). comprehension: reading and vocabulary (upper elementary to middle).
+       math: equal groups (elementary). frustrated: writing a first sentence (middle to high school). */
     var EX = {
       freeze: {
-        sports: ['24 ÷ 4 and “Jada’s team scored 24 points, the same in each of 4 quarters” are the same problem. I circle what’s shared (24 points) and how many groups (4). When a total is split into equal groups, I divide.', 'Kai’s team scored 20 points over 4 quarters, the same each time. What’s shared? How many groups?', 'Jada scored 30 points over 5 games, the same each game. How many points each game?'],
-        animals: ['24 ÷ 4 and “Four otters share 24 clams equally” are the same problem. I circle what’s shared (24 clams) and how many groups (4 otters). When a total is split into equal groups, I divide.', 'Four otters share 20 clams equally. What’s shared? How many groups?', 'Five otters share 30 clams equally. How many clams does each otter get?'],
-        games: ['24 ÷ 4 and “Ren splits 24 coins among 4 players” are the same problem. I circle what’s shared (24 coins) and how many groups (4 players). When a total is split into equal groups, I divide.', 'Ren splits 20 coins among 4 players. What’s shared? How many groups?', 'Ren splits 30 gems among 5 players. How many gems does each player get?'],
-        music: ['24 ÷ 4 and “A band plays 24 songs over 4 nights, the same each night” are the same problem. I circle what’s shared (24 songs) and how many groups (4 nights). When a total is split into equal groups, I divide.', 'The band plays 20 songs over 4 nights, the same each night. What’s shared? How many groups?', 'The band plays 30 songs over 5 nights, the same each night. How many songs each night?'],
-        art: ['24 ÷ 4 and “Ari puts 24 crayons into 4 boxes equally” are the same problem. I circle what’s shared (24 crayons) and how many groups (4 boxes). When a total is split into equal groups, I divide.', 'Ari puts 20 crayons into 4 boxes equally. What’s shared? How many groups?', 'Ari puts 30 crayons into 5 boxes equally. How many crayons go in each box?'],
-        space: ['24 ÷ 4 and “A rover drives 24 meters in 4 minutes at the same speed” are the same problem. I circle what’s shared (24 meters) and how many groups (4 minutes). When a total is split into equal groups, I divide.', 'The rover drives 20 meters in 4 minutes at the same speed. What’s shared? How many groups?', 'The rover drives 30 meters in 5 minutes at the same speed. How far does it go each minute?']
+        sports: ["Jada’s team scored 24 points, the same number in each of 4 quarters. How many points did they score each quarter? The question asks for one equal share. The total is 24, split into 4 equal groups, so I divide: 24 ÷ 4 = 6. They scored 6 points each quarter.", "Kai’s team scored 20 points, the same number in each of 4 quarters. How many points did they score each quarter? Let’s find the total and the number of equal groups first. Which operation fits?", "Jada scored 30 points over 5 games, the same number in each game. How many points did she score in each game? Show or explain how you know."],
+        animals: ["Four otters share 24 clams equally. How many clams does each otter get? The question asks for one otter’s share. The total is 24, split into 4 equal groups, so I divide: 24 ÷ 4 = 6. Each otter gets 6 clams.", "Four otters share 20 clams equally. How many clams does each otter get? Let’s find the total and the number of equal groups first. Which operation fits?", "Five otters share 30 clams equally. How many clams does each otter get? Show or explain how you know."],
+        games: ["Ren splits 24 coins equally among 4 players. How many coins does each player get? The question asks for one player’s share. The total is 24, split into 4 equal groups, so I divide: 24 ÷ 4 = 6. Each player gets 6 coins.", "Ren splits 20 coins equally among 4 players. How many coins does each player get? Let’s find the total and the number of equal groups first. Which operation fits?", "Ren splits 30 gems equally among 5 players. How many gems does each player get? Show or explain how you know."],
+        music: ["A band plays 24 songs over 4 nights, the same number each night. How many songs do they play each night? The question asks for one night’s share. The total is 24, split into 4 equal groups, so I divide: 24 ÷ 4 = 6. They play 6 songs each night.", "The band plays 20 songs over 4 nights, the same number each night. How many songs do they play each night? Let’s find the total and the number of equal groups first. Which operation fits?", "The band plays 30 songs over 5 nights, the same number each night. How many songs do they play each night? Show or explain how you know."],
+        art: ["Ari puts 24 crayons into 4 boxes, the same number in each. How many crayons go in each box? The question asks for one box’s share. The total is 24, split into 4 equal groups, so I divide: 24 ÷ 4 = 6. Each box gets 6 crayons.", "Ari puts 20 crayons into 4 boxes, the same number in each. How many crayons go in each box? Let’s find the total and the number of equal groups first. Which operation fits?", "Ari puts 30 crayons into 5 boxes, the same number in each. How many crayons go in each box? Show or explain how you know."],
+        space: ["A rover drives 24 meters in 4 minutes at a steady speed. How far does it drive each minute? The question asks for one minute’s share. The total is 24 meters over 4 equal minutes, so I divide: 24 ÷ 4 = 6. It drives 6 meters each minute.", "The rover drives 20 meters in 4 minutes at a steady speed. How far does it drive each minute? Let’s find the total and the number of equal parts first. Which operation fits?", "The rover drives 30 meters in 5 minutes at a steady speed. How far does it drive each minute? Show or explain how you know."]
       },
       grades: {
-        sports: ['Jada scored 12 points in 6 minutes. I split 12 into 6 equal parts: 2 points each minute.', 'Kai scored 10 points in 2 minutes. Split 10 into 2 equal parts. How many each minute?', 'New game: Jada scored 16 points in 8 minutes. Kai scored 9 points in 3 minutes. Who scored more each minute? Explain how you know.'],
-        animals: ['One turtle walked 12 meters in 6 minutes. I split 12 into 6 equal parts: 2 meters each minute.', 'Another turtle walked 10 meters in 2 minutes. Split 10 into 2 equal parts. How many each minute?', 'New race: One snail crawled 16 inches in 8 minutes. Another snail crawled 9 inches in 3 minutes. Which snail crawled more inches each minute? Explain how you know.'],
-        games: ['Shop A sells 6 potions for 12 coins. I split 12 coins into 6 equal parts: 2 coins per potion.', 'Shop B sells 2 potions for 10 coins. Split 10 into 2 equal parts. How many coins per potion?', 'New shops: Shop C sells 8 potions for 16 coins. Shop D sells 3 potions for 9 coins. Which shop has the lower price per potion? Explain how you know.'],
-        music: ['Mia learned 12 songs in 6 weeks. I split 12 into 6 equal parts: 2 songs each week.', 'Leo learned 10 songs in 2 weeks. Split 10 into 2 equal parts. How many each week?', 'New challenge: Mia learned 16 songs in 8 weeks. Leo learned 9 songs in 3 weeks. Who learned more songs each week? Explain how you know.'],
-        art: ['Ari drew 12 sketches in 6 days. I split 12 into 6 equal parts: 2 sketches each day.', 'Kai drew 10 sketches in 2 days. Split 10 into 2 equal parts. How many each day?', 'New challenge: Ari drew 16 sketches in 8 days. Kai drew 9 sketches in 3 days. Who drew more sketches each day? Explain how you know.'],
-        space: ['Rover A drove 12 meters in 6 minutes. I split 12 into 6 equal parts: 2 meters each minute.', 'Rover B drove 10 meters in 2 minutes. Split 10 into 2 equal parts. How many each minute?', 'New mission: Rover C drove 16 meters in 8 minutes. Rover D drove 9 meters in 3 minutes. Which rover was faster? Explain how you know.']
+        sports: ["Does the floor surface change how high a ball bounces? To find out, I change only the floor. I keep the same ball, drop it from the same height, and measure the highest bounce the same way each time, then repeat. If I changed two things at once, I couldn’t tell which one caused a difference. One change makes it a fair test.", "A student drops a small ball on one floor and a large ball on the other. Is that a fair test? Let’s find the extra change together and fix the plan.", "Jada wants to know if drop height changes how high a ball bounces. What should she change, what should she keep the same, and what should she measure? Explain why."],
+        animals: ["Does a ramp’s surface change how far a toy cart rolls past the bottom of the ramp? I change only the surface. I keep the same cart, the same toy fox riding in it, and the same ramp height, then measure how far it rolls past the bottom and repeat. One change makes it a fair test.", "A student changes the ramp surface and also takes the toy fox out of the cart for the second run. Is that a fair test? Let’s find the extra change together and fix the plan.", "Sam wants to know if ramp height changes how far the cart rolls past the bottom of the ramp. What should he change, keep the same, and measure? Explain why."],
+        games: ["Ren builds a racecourse like the one in his game. Does ramp height change how far a toy car rolls past the bottom of the ramp? I change only the height. I keep the same car, ramp surface, and floor, then measure how far it rolls past the bottom and repeat. One change makes it a fair test.", "A student uses a different car and a higher ramp in the second run. Is that a fair test? Let’s find the extra change together and fix the plan.", "Ren wants to know if the floor surface changes how far the car rolls past the bottom of the ramp. What should he change, keep the same, and measure? Explain why."],
+        music: ["Does the amount of rice in a shaker change how loud it sounds? I change only the amount of rice. I keep the same shaker, shake it the same way, and hold it the same distance from a sound meter, then measure the loudness and repeat. One change makes it a fair test.", "A student adds more rice and also moves farther from the sound meter. Is that a fair test? Let’s find the extra change together and fix the plan.", "Mia wants to know if distance changes how loud the same shaker measures. What should she change, keep the same, and measure? Explain why."],
+        art: ["Does the type of paper change how far a drop of watercolor spreads? I change only the paper. I keep the same paint mix and the same size drop, then measure how wide the spot spreads on each paper and repeat. One change makes it a fair test.", "A student changes the paper and also uses a bigger drop on the second paper. Is that a fair test? Let’s find the extra change together and fix the plan.", "Ari wants to know if adding more water to the paint changes how far a drop spreads. What should she change, keep the same, and measure? Explain why."],
+        space: ["Does drop height change how wide a crater is in a tray of sand? I change only the drop height. I keep the same ball and smooth the sand the same way each time, then measure the crater’s width and repeat. One change makes it a fair test.", "A student uses a heavier ball and a higher drop in the second test. Is that a fair test? Let’s find the extra change together and fix the plan.", "The team wants to know if sand depth changes how wide the crater is. What should they change, keep the same, and measure? Explain why."]
       },
       reading: {
-        sports: ['b-a-t, bat', 'c-a-p, cap', 'Dan has a bat and a cap. Dan can bat!'],
-        animals: ['c-a-t, cat', 'r-a-t, rat', 'A cat sat. A rat ran. The cat had a nap.'],
-        games: ['z-a-p, zap', 'm-a-p, map', 'Sam has a map. Sam can zap a bad bat.'],
-        music: ['t-a-p, tap', 'p-a-n, pan', 'Pam can tap a pan. Tap, tap, tap! Pam and Dad jam.'],
-        art: ['p-a-d, pad', 't-a-n, tan', 'Nan has a pad. Nan can map a cat. The cat is tan.'],
-        space: ['l-a-b, lab', 'm-a-p, map', 'Zak has a map and a cap. Zak ran to the lab.']
+        sports: ["What word do these letters make? b-a-t. I point to each letter, say its sound, and blend them from left to right: bat.", "What word is this? Let’s say each sound together, then blend: s-a-t, sat.", "Can you read this word on your own, before you see a picture? cap. Then a short sentence made only of sounds you know: Sam can bat."],
+        animals: ["What word do these letters make? c-a-t. I point to each letter, say its sound, and blend them from left to right: cat.", "What word is this? Let’s say each sound together, then blend: s-a-t, sat.", "Can you read this word on your own, before you see a picture? ram. Then a short sentence made only of sounds you know: Cats can nap."],
+        games: ["What word do these letters make? m-a-p. I point to each letter, say its sound, and blend them from left to right: map.", "What word is this? Let’s say each sound together, then blend: s-a-t, sat.", "Can you read this word on your own, before you see a picture? gap. Then a short sentence made only of sounds you know: Sam can tap."],
+        music: ["What word do these letters make? t-a-p. I point to each letter, say its sound, and blend them from left to right: tap.", "What word is this? Let’s say each sound together, then blend: s-a-t, sat.", "Can you read this word on your own, before you see a picture? rap. Then a short sentence made only of sounds you know: Pam can tap."],
+        art: ["What word do these letters make? r-a-g. I point to each letter, say its sound, and blend them from left to right: rag.", "What word is this? Let’s say each sound together, then blend: s-a-t, sat.", "Can you read this word on your own, before you see a picture? pad. Then a short sentence made only of sounds you know: Nan can dab."],
+        space: ["What word do these letters make? l-a-b. I point to each letter, say its sound, and blend them from left to right: lab.", "What word is this? Let’s say each sound together, then blend: s-a-t, sat.", "Can you read this word on your own, before you see a picture? bag. Then a short sentence made only of sounds you know: Sam can map."]
       },
       comprehension: {
-        sports: ['“Jada usually passed to the same teammate. Today a defender stood in the way, so she bounced the ball to Kai.” I find the clue: a defender stood in the way.', 'What did Jada do because of that clue?', 'New story: “Kai saw the goalie move left, so he kicked right.” Why did Kai kick right? Use a clue.'],
-        animals: ['“The small rock shifted whenever the otter struck the shell. A larger rock nearby stayed in place.” I find the clue: the small rock shifted.', 'What might the otter do because of that clue?', 'New story: “The water kept pulling the otter away from its family, so it wrapped itself in kelp before napping.” Why did the otter wrap itself in kelp? Use a clue.'],
-        games: ['“The clue said to turn left after the blue door. Ren saw two blue doors.” I find the clue: there were two blue doors.', 'Why did Ren read the clue again?', 'New story: “Ren’s torch was almost out, so he ran straight to the waterfall instead of exploring the cave.” Why did Ren hurry? Use a clue.'],
-        music: ['“The band practiced a slow introduction. Tonight, the drummer started much faster.” I find the clue: the drummer started much faster.', 'What did the band have to do because of that clue?', 'New story: “The singer’s microphone stopped working, so she stepped closer to the crowd and sang louder.” Why did she sing louder? Use a clue.'],
-        art: ['“Ari’s dragon wing looked flat. Then she noticed the light was coming from the left.” I find the clue: the light was coming from the left.', 'What could Ari change because of that clue?', 'New story: “Ari’s paint kept dripping down the page, so she laid the paper flat on the table.” Why did Ari lay the paper flat? Use a clue.'],
-        space: ['“The crater’s sides were steep, and the rover might not climb back out. Going around would take longer.” I find the clue: the rover might not climb back out.', 'Why might Mission Control choose the longer route?', 'New story: “A dust storm was coming, so the team turned the rover’s solar panels away from the wind.” Why did they turn the panels? Use a clue.']
+        sports: ["Why did Jada pass to Kai? I read: “A defender blocked Jada’s path. Kai was open, with nobody guarding him.” Blocked means something is in the way. Open means free to get the ball. Those two details explain it: her path was blocked, and Kai was open, so she passed to him.", "Why did Kai pass back to Jada? “A defender guarded Kai closely. Jada moved into open space.” Let’s find what guarded means, then the detail that explains his choice.", "Why did Sam step sideways? “A taller player stood in front of Sam. He stepped sideways until he had a clear view of the basket.” Use a detail from the text to explain."],
+        animals: ["Why did the otter move to the larger rock? I read: “The small rock rolled whenever the otter struck a shell against it. A larger rock stayed firmly in place.” Firmly means without moving. The small rock rolled, and the large one stayed still, so the otter moved to the rock that held steady.", "Why did the fox go uphill? “Deep water covered the fox’s usual path. A dry path led up the hill.” Let’s find the problem first, then the detail that explains the fox’s choice.", "Why did the rabbit move under the bush? “The sun heated the bare ground. Under the bush, the ground was shaded and cooler.” Use a detail from the text to explain."],
+        games: ["Why did Ren enter the room? I read: “Ren’s energy bar was almost empty. A sign marked the room as a charging station.” A charging station is a place to refill energy. Low energy and a place to recharge explain his choice.", "Why did Sam pick up the health pack? “Sam’s character had one heart left. A health pack lay beside the path.” Let’s find what a health pack does, then the detail that explains the choice.", "Why did Ren leave the chest behind? “A warning said the bridge could not hold heavy objects. Ren set the heavy treasure chest on the bank before crossing.” Use a detail from the text to explain."],
+        music: ["Why did the singer step closer and sing louder? I read: “The audience could barely hear the singer after her microphone stopped working.” Barely means almost not at all. Without a working microphone, they could hardly hear her, so she moved closer and sang louder.", "Why did the drummer play more softly? “The drums were much louder than the flute. The audience could not hear the flute.” Let’s find the problem first, then the detail that explains the drummer’s choice.", "Why did Mia switch guitars? “One string on Mia’s guitar had broken. A spare guitar stood nearby.” Use a detail from the text to explain."],
+        art: ["Why did Ari lay her paper flat? I read: “Wet paint ran down Ari’s upright paper.” Upright means standing up straight. Paint runs down paper that stands up, so she laid it flat to stop the drips.", "Why did Ari choose thicker paper? “Ari’s thin paper tore when she added water.” Let’s find the problem first, then the detail that explains her choice.", "Why did Ari press more lightly? “Ari’s pencil lines were too dark to erase easily. In her next sketch, she pressed more lightly.” Use a detail from the text to explain."],
+        space: ["Why did the team choose the longer route? I read: “The crater’s sides were too steep for the rover to climb safely.” Steep means rising sharply. The rover couldn’t climb out safely, so going around was the safer choice.", "Why did the team change the rover’s route? “Loose sand made the rover’s wheels sink. A firm, rocky path lay nearby.” Let’s find what firm means, then the detail that explains the choice.", "Why did the team clean the camera lens? “Dust covered the rover’s camera lens, and its pictures were blurry.” Use a detail from the text to explain."]
       },
       math: {
-        sports: ['Jada scores 5 points in each of 4 games. I draw 4 groups of 5 dots and count by fives: 5, 10, 15, 20.', 'Now 3 games, 5 points each. Draw it or count by fives with me.', 'Now 6 games, 5 points each. Solve it your way, then write the number sentence.'],
-        animals: ['An otter eats 5 clams each hour for 4 hours. I draw 4 groups of 5 dots and count by fives: 5, 10, 15, 20.', 'Now 3 hours, 5 clams each hour. Draw it or count by fives with me.', 'Now 6 hours, 5 clams each hour. Solve it your way, then write the number sentence.'],
-        games: ['Ren earns 5 coins on each of 4 levels. I draw 4 groups of 5 coins and count by fives: 5, 10, 15, 20.', 'Now 3 levels, 5 coins each. Draw it or count by fives with me.', 'Now 6 levels, 5 coins each. Solve it your way, then write the number sentence.'],
-        music: ['Mia practices 5 minutes on each of 4 songs. I draw 4 groups of 5 and count by fives: 5, 10, 15, 20.', 'Now 3 songs, 5 minutes each. Draw it or count by fives with me.', 'Now 6 songs, 5 minutes each. Solve it your way, then write the number sentence.'],
-        art: ['Ari draws 4 flowers with 5 petals each. I draw 4 groups of 5 petals and count by fives: 5, 10, 15, 20.', 'Now 3 flowers, 5 petals each. Draw it or count by fives with me.', 'Now 6 flowers, 5 petals each. Solve it your way, then write the number sentence.'],
-        space: ['The rover collects 5 rocks at each of 4 stops. I draw 4 groups of 5 rocks and count by fives: 5, 10, 15, 20.', 'Now 3 stops, 5 rocks each. Draw it or count by fives with me.', 'Now 6 stops, 5 rocks each. Solve it your way, then write the number sentence.']
+        sports: ["How many balls are in 4 baskets with 5 balls each? Each basket is a group of 5. I add a 5 for each basket: 5 + 5 + 5 + 5 = 20. Four groups of 5 is also 4 × 5 = 20. There are 20 balls.", "How many balls are in 3 baskets with 5 balls each? Let’s add a 5 for each basket together. What does the 3 stand for? What does the 5 stand for?", "There are 6 baskets with 5 balls in each. How many balls are there in all? Show or explain how you know."],
+        animals: ["How many food pieces are on 4 trays with 5 pieces each? Each tray is a group of 5. I add a 5 for each tray: 5 + 5 + 5 + 5 = 20. Four groups of 5 is also 4 × 5 = 20. There are 20 food pieces.", "How many food pieces are on 3 trays with 5 pieces each? Let’s add a 5 for each tray together. What does the 3 stand for? What does the 5 stand for?", "There are 6 trays with 5 food pieces on each. How many food pieces are there in all? Show or explain how you know."],
+        games: ["How many coins are in 4 treasure chests with 5 coins each? Each chest is a group of 5. I add a 5 for each chest: 5 + 5 + 5 + 5 = 20. Four groups of 5 is also 4 × 5 = 20. There are 20 coins.", "How many coins are in 3 chests with 5 coins each? Let’s add a 5 for each chest together. What does the 3 stand for? What does the 5 stand for?", "There are 6 treasure chests with 5 coins in each. How many coins are there in all? Show or explain how you know."],
+        music: ["Mia practices 4 songs for 5 minutes each. How many minutes does she practice? Each song is a group of 5 minutes. I add a 5 for each song: 5 + 5 + 5 + 5 = 20. Four groups of 5 is also 4 × 5 = 20. She practices 20 minutes.", "Mia practices 3 songs for 5 minutes each. How many minutes is that? Let’s add a 5 for each song together. What does the 3 stand for? What does the 5 stand for?", "Mia practices 6 songs for 5 minutes each. How many minutes does she practice in all? Show or explain how you know."],
+        art: ["How many petals are on 4 flowers with 5 petals each? Each flower is a group of 5. I add a 5 for each flower: 5 + 5 + 5 + 5 = 20. Four groups of 5 is also 4 × 5 = 20. There are 20 petals.", "How many petals are on 3 flowers with 5 petals each? Let’s add a 5 for each flower together. What does the 3 stand for? What does the 5 stand for?", "Ari draws 6 flowers with 5 petals on each. How many petals are there in all? Show or explain how you know."],
+        space: ["How many rocks are in 4 sample boxes with 5 rocks each? Each box is a group of 5. I add a 5 for each box: 5 + 5 + 5 + 5 = 20. Four groups of 5 is also 4 × 5 = 20. There are 20 rocks.", "How many rocks are in 3 boxes with 5 rocks each? Let’s add a 5 for each box together. What does the 3 stand for? What does the 5 stand for?", "There are 6 sample boxes with 5 rocks in each. How many rocks are there in all? Show or explain how you know."]
       },
       frustrated: {
-        sports: ['Big question: 15 points in each of 6 games. I start small: 2 games is 15 + 15 = 30.', 'Six games make three groups of 2. Add 30 three times with me.', 'Now 15 points in each of 4 games. Which small step will you start with?'],
-        animals: ['Big question: Six dolphins each eat 15 fish. I start small: 2 dolphins eat 15 + 15 = 30.', 'Six dolphins make three groups of 2. Add 30 three times with me.', 'Now 4 dolphins, 15 fish each. Which small step will you start with?'],
-        games: ['Big question: 15 coins on each of 6 levels. I start small: 2 levels is 15 + 15 = 30.', 'Six levels make three groups of 2. Add 30 three times with me.', 'Now 15 coins on each of 4 levels. Which small step will you start with?'],
-        music: ['Big question: Mia practices 15 minutes a day for 6 days. I start small: 2 days is 15 + 15 = 30.', 'Six days make three groups of 2. Add 30 three times with me.', 'Now 15 minutes a day for 4 days. Which small step will you start with?'],
-        art: ['Big question: 15 beads for each of 6 bracelets. I start small: 2 bracelets is 15 + 15 = 30.', 'Six bracelets make three groups of 2. Add 30 three times with me.', 'Now 15 beads for each of 4 bracelets. Which small step will you start with?'],
-        space: ['Big question: The rover drives 15 meters each minute for 6 minutes. I start small: 2 minutes is 15 + 15 = 30.', 'Six minutes make three groups of 2. Add 30 three times with me.', 'Now 15 meters each minute for 4 minutes. Which small step will you start with?']
+        sports: ["Should student athletes need passing grades to play? When an essay feels too big, I start with one sentence that answers the question and gives a reason: “Student athletes should need passing grades to play because school comes first.” One clear sentence is a real first step.", "Should practices start later on school days? Let’s write one sentence together that answers the question and gives a reason.", "Should every player get equal playing time? Write one sentence that answers the question and gives a reason."],
+        animals: ["Should people adopt pets from shelters? When an essay feels too big, I start with one sentence that answers the question and gives a reason: “People should adopt pets from shelters because those animals need homes.” One clear sentence is a real first step.", "Should schools have a class pet? Let’s write one sentence together that answers the question and gives a reason.", "Should dogs be allowed off the leash in parks? Write one sentence that answers the question and gives a reason."],
+        games: ["Should schools use video games to teach? When an essay feels too big, I start with one sentence that answers the question and gives a reason: “Schools should use some video games to teach because games give quick feedback.” One clear sentence is a real first step.", "Should there be a daily limit on screen time? Let’s write one sentence together that answers the question and gives a reason.", "Should video games count as a sport? Write one sentence that answers the question and gives a reason."],
+        music: ["Should every student learn an instrument? When an essay feels too big, I start with one sentence that answers the question and gives a reason: “Every student should learn an instrument because practice builds patience.” One clear sentence is a real first step.", "Should students listen to music while they study? Let’s write one sentence together that answers the question and gives a reason.", "Should schools offer music class every year? Write one sentence that answers the question and gives a reason."],
+        art: ["Should art class be required in high school? When an essay feels too big, I start with one sentence that answers the question and gives a reason: “Art class should be required because it teaches students to solve problems creatively.” One clear sentence is a real first step.", "Should student art be displayed around the school? Let’s write one sentence together that answers the question and gives a reason.", "Should students be allowed to paint murals on school walls? Write one sentence that answers the question and gives a reason."],
+        space: ["Should people try to live on Mars? When an essay feels too big, I start with one sentence that answers the question and gives a reason: “People should not try to live on Mars yet because the planet has no breathable air.” One clear sentence is a real first step.", "Should countries spend more money exploring space? Let’s write one sentence together that answers the question and gives a reason.", "Should schools teach more about space? Write one sentence that answers the question and gives a reason."]
       }
+    };
+    /* Pictures for the worked example: equal groups (what each group is, what each dot stands for) and phonics sound dots. */
+    var VIS = {
+      math: {
+        sports: ["Basket", "ball"], animals: ["Tray", "food piece"], games: ["Chest", "coin"],
+        music: ["Song", "minute"], art: ["Flower", "petal"], space: ["Box", "rock"]
+      },
+      reading: { sports: "bat", animals: "cat", games: "map", music: "tap", art: "rag", space: "lab" }
     };
 
   var st = { step: "noticing", notice: null, love: null, ownNotice: "", ownLove: "", ownNoticeOpen: false, ownLoveOpen: false };
@@ -137,6 +150,71 @@
     if (focusId) bringIntoView($(focusId));
   }
 
+  /* A small picture for the worked example: labeled equal groups, or letters with sound dots. */
+  function picture(notice, love) {
+    var wrap = document.createElement("div");
+    if (notice === "math" && VIS.math[love]) {
+      var unit = VIS.math[love][0], item = VIS.math[love][1];
+      wrap.setAttribute("role", "img");
+      wrap.setAttribute("aria-label", "4 groups labeled " + unit + " 1 to " + unit + " 4, each with 5 dots. Each dot is a " + item + ".");
+      wrap.setAttribute("style", "margin-top: 12px");
+      var grid = document.createElement("div");
+      grid.setAttribute("style", "display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px");
+      for (var g = 1; g <= 4; g++) {
+        var cell = document.createElement("div");
+        cell.setAttribute("style", "padding: 6px 2px 8px; border-radius: 10px; background: #fffdf8; border: 1px solid rgba(7,63,77,0.18); text-align: center");
+        var name = document.createElement("div");
+        name.setAttribute("style", "font-size: 11px; font-weight: 600; color: #073f4d; white-space: nowrap; overflow: hidden; text-overflow: ellipsis");
+        name.textContent = unit + " " + g;
+        var dots = document.createElement("div");
+        dots.setAttribute("style", "margin-top: 6px; display: flex; flex-wrap: nowrap; justify-content: center; gap: 2px");
+        for (var d = 0; d < 5; d++) {
+          var dot = document.createElement("span");
+          dot.setAttribute("style", "width: 7px; height: 7px; flex: 0 0 7px; border-radius: 50%; background: #073f4d; display: inline-block");
+          dots.appendChild(dot);
+        }
+        cell.appendChild(name); cell.appendChild(dots); grid.appendChild(cell);
+      }
+      var cap = document.createElement("p");
+      cap.setAttribute("style", "margin: 6px 0 0; font-size: 13px; color: #5f5a50");
+      cap.textContent = "Each dot is a " + item + ".";
+      wrap.appendChild(grid); wrap.appendChild(cap);
+      return wrap;
+    }
+    if (notice === "reading" && VIS.reading[love]) {
+      var word = VIS.reading[love];
+      wrap.setAttribute("role", "img");
+      wrap.setAttribute("aria-label", "The letters " + word.split("").join(", ") + ", each with a sound dot, blend into the word " + word + ".");
+      wrap.setAttribute("style", "margin-top: 12px; display: flex; align-items: flex-end; gap: 14px");
+      var row = document.createElement("div");
+      row.setAttribute("style", "display: inline-flex; flex-direction: column; gap: 4px");
+      var letters = document.createElement("div");
+      letters.setAttribute("style", "display: flex; gap: 22px; padding: 0 6px");
+      word.split("").forEach(function (ch) {
+        var col = document.createElement("div");
+        col.setAttribute("style", "display: flex; flex-direction: column; align-items: center; gap: 4px");
+        var l = document.createElement("span");
+        l.setAttribute("style", "font-family: Lora, Georgia, serif; font-size: 28px; font-weight: 700; line-height: 1; color: #073f4d");
+        l.textContent = ch;
+        var dt = document.createElement("span");
+        dt.setAttribute("style", "width: 7px; height: 7px; border-radius: 50%; background: #073f4d; display: inline-block");
+        col.appendChild(l); col.appendChild(dt); letters.appendChild(col);
+      });
+      var arrow = document.createElement("div");
+      arrow.setAttribute("style", "position: relative; height: 2px; background: #073f4d; margin-right: 6px");
+      var head = document.createElement("span");
+      head.setAttribute("style", "position: absolute; right: -6px; top: -5px; width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-left: 9px solid #073f4d");
+      arrow.appendChild(head);
+      row.appendChild(letters); row.appendChild(arrow);
+      var whole = document.createElement("span");
+      whole.setAttribute("style", "font-family: Lora, Georgia, serif; font-size: 28px; font-weight: 700; line-height: 1; color: #073f4d; padding-bottom: 6px");
+      whole.textContent = word;
+      wrap.appendChild(row); wrap.appendChild(whole);
+      return wrap;
+    }
+    return null;
+  }
+
   function renderAnswer() {
     var s = find(STRUGGLES, st.notice), l = find(LOVES, st.love);
     var noticeText = st.notice === "own" ? tidyNotice(st.ownNotice) : (s ? s.recap : "");
@@ -170,6 +248,7 @@
       body.setAttribute("style", "margin: 0; font-family: Lora, Georgia, serif; font-size: 17px; line-height: 1.5; color: #073f4d");
       body.textContent = text;
       box.appendChild(lab); box.appendChild(body);
+      if (i === 0 && !custom) { var pic = picture(st.notice, st.love); if (pic) box.appendChild(pic); }
       steps.appendChild(box);
     });
 
