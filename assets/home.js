@@ -253,7 +253,7 @@
     });
 
     var weekly = isReading
-      ? ["A custom reading plan I create for your child", "Two live 20-minute sessions a week with a reading tutor I train", "Stories about " + loveText + " at their reading level", "Systematic phonics, one sound pattern at a time", "Progress checks you can see"]
+      ? ["A custom reading plan I create for your child", "Two live 20-minute sessions a week with a reading tutor I train", "Stories about " + loveText + " at their reading level, plus practice games between sessions", "Systematic phonics, one sound pattern at a time", "A written progress update every week", "A 20-minute live check-in with me each month"]
       : ["Custom lessons and games built around " + loveText, "My review of their work", "A written progress update for you", "A 20-minute live check-in each month, by video or phone"];
     var ul = $("weekly");
     ul.innerHTML = "";

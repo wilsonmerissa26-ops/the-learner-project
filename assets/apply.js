@@ -69,7 +69,7 @@
     var fee;
     if (c === "waitlist") fee = "There is no charge to join the waitlist.";
     else if (isReading) fee = "Reading programs start with a Reading Check: $75 virtual or $125 in person.";
-    else if (c === "founding") fee = "Two founding spots are open for the digital program: 30 days with no monthly charge and weekly progress updates. Founding members pay $100 for the assessment instead of $199. Complete the founding checklist and you qualify for a Founding Completion Credit, applied to your first paid month or refunded.";
+    else if (c === "founding") fee = "Two founding spots are open for the digital program: 30 days with no monthly charge and weekly written progress updates. Founding members pay $100 for the assessment instead of $199. Complete the founding checklist and you qualify for a Founding Completion Credit, applied to your first paid month or refunded.";
     else fee = "The digital program starts with a Personal Learning Assessment ($199).";
     $("intro-fee").textContent = fee;
 
