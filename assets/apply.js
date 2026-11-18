@@ -121,6 +121,7 @@
       "Child's grade": gradeLabel,
       "What they're noticing": notice.value.trim() || "Not given",
       "What their child loves": $("ap-love").value.trim() || "Not given",
+      "Need-based pricing or scholarship": $("ap-need") && $("ap-need").checked ? "Yes, wants to be considered" : "No",
       "Confirmed": "Parent or guardian; understands a spot is not guaranteed"
     };
 
